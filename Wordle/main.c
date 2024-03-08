@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "game_board.h"
+#include "game.h"
 #include "mainmenu.h"
 
 int main() {
