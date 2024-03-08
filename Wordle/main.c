@@ -1,10 +1,11 @@
 #include <stdio.h>
-#include "game_board.h"
+#include "game.h"
 
 int main() {
 	GameBoard* gameBoard = CreateGameBoard();
+	bool running = true;
 
-	while (true) {
+	while (running) {
 		GetInputs(gameBoard);
 	}
 

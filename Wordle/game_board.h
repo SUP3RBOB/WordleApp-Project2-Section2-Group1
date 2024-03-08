@@ -13,6 +13,5 @@ GameBoard* CreateGameBoard();
 void SetCharacterAtCurrentPosition(GameBoard* gameBoard, char c);
 char GetCharacterAtCurrentPosition(GameBoard* gameBoard);
 bool NextRow(GameBoard* gameBoard);
-bool GetInputs(GameBoard* gameBoard);
 void RefreshBoard(GameBoard* gameBoard);
 bool DestroyGameBoard(GameBoard* gameBoard);
