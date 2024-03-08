@@ -2,8 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
-#define BACKSPACE 8
-#define ENTER 13
 
 GameBoard* CreateGameBoard() {
 	GameBoard* board = malloc(sizeof(GameBoard));
@@ -47,41 +45,6 @@ bool NextRow(GameBoard* gameBoard) {
 	gameBoard->currentRow++;
 	gameBoard->currentColumn = 0;
 	
-	return true;
-}
-
-bool GetInputs(GameBoard* gameBoard) {
-	if (gameBoard == NULL) {
-		fprintf(stderr, "Unable to get keyboard input, game board doesn't exist\n");
-		return false;
-	}
-
-	int keyInput = _getch();
-
-	if (keyInput == ENTER) {
-		NextRow(gameBoard);
-		return true;
-	}
-
-	if (keyInput == BACKSPACE) {
-		if (gameBoard->currentColumn > 0) {
-			gameBoard->currentColumn--;
-		}
-
-		SetCharacterAtCurrentPosition(gameBoard, '0');
-
-		RefreshBoard(gameBoard);
-		return true;
-	}
-
-	if (gameBoard->currentColumn >= BOARD_WIDTH) {
-		return true;
-	}
-
-	SetCharacterAtCurrentPosition(gameBoard, (char)keyInput);
-	RefreshBoard(gameBoard);
-	gameBoard->currentColumn++;
-
 	return true;
 }
 
