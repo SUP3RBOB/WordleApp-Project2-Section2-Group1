@@ -1,0 +1,17 @@
+#pragma once
+#include "stdbool.h"
+#define USERNAME_LENGTH 4
+
+typedef struct player {
+	char username[USERNAME_LENGTH];
+	int gamesPlayed;
+	int totalWins;
+	int totalLosses;
+	float winPercentage;
+	int winStreak;
+} Player;
+
+Player* CreatePlayer();
+bool SavePlayerData(Player* player, char fileName[]);
+bool LoadPlayerData(Player* player, char fileName[]);
+void DestroyPlayer(Player* player);
