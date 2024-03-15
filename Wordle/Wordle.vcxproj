@@ -127,7 +127,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="gridUItesting.c" />
     <ClCompile Include="game.c" />
     <ClCompile Include="game_board.c" />
     <ClCompile Include="mainmenu.c" />
