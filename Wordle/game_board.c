@@ -48,17 +48,6 @@ bool NextRow(GameBoard* gameBoard) {
 	return true;
 }
 
-void RefreshBoard(GameBoard* gameBoard) {
-	system("cls");
-
-	for (int i = 0; i < BOARD_HEIGHT; i++) {
-		for (int j = 0; j < BOARD_WIDTH; j++) {
-			printf("%c", gameBoard->grid[j][i]);
-		}
-		printf("\n");
-	}
-}
-
 bool DestroyGameBoard(GameBoard* gameBoard) {
 	if (gameBoard == NULL) {
 		fprintf(stderr, "Unable to free game board, game board doesn't exist\n");
