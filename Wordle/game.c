@@ -9,7 +9,13 @@
 #define KEY_BACKSPACE 8
 #define KEY_ENTER 13
 
-char word[] = "LIVER";
+// ANSI color codes for console output
+#define ANSI_COLOR_RED     "\x1b[31m"
+#define ANSI_COLOR_GREEN   "\x1b[32m"
+#define ANSI_COLOR_YELLOW  "\x1b[33m"
+#define ANSI_COLOR_RESET   "\x1b[0m"
+
+char word[] = "WORLD";
 
 bool GetInputs(GameBoard* gameBoard) {
 	if (gameBoard == NULL) {
@@ -68,9 +74,9 @@ void RefreshBoard(GameBoard* gameBoard) {
 		for (int j = 0; j < BOARD_WIDTH; j++) {
 			if (i < gameBoard->currentRow) {
 				switch (GetLetterCase(gameBoard->grid[j][i])) {
-					case NotInWord: printf("%c", gameBoard->grid[j][i]); break;
-					case IsInWord: printf("%c", gameBoard->grid[j][i]); break;
-					case IsInPosition: printf("%c", gameBoard->grid[j][i]); break;
+					case NotInWord: printf(ANSI_COLOR_RED "%c" ANSI_COLOR_RESET, gameBoard->grid[j][i]); break;
+					case IsInWord: printf(ANSI_COLOR_YELLOW "%c" ANSI_COLOR_RESET, gameBoard->grid[j][i]); break;
+					case IsInPosition: printf(ANSI_COLOR_GREEN "%c" ANSI_COLOR_RESET, gameBoard->grid[j][i]); break;
 				}
 			} else {
 				printf("%c", gameBoard->grid[j][i]);
