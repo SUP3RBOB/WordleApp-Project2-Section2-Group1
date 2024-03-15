@@ -1,11 +1,10 @@
 #include <stdio.h>
 #include "game.h"
 #include "mainmenu.h"
-
 int main() {
 	char input[4];
 	GameBoard* gameBoard = CreateGameBoard();
-	//p info;
+	//p info; //temp struct change when full player info struct is done
 
 	//main menu begin
 	//printf("        welcome to worlde!        \n");
@@ -37,6 +36,9 @@ int main() {
 	
 	//main menu end
 	while (true) {
+	bool running = true;
+
+	while (running) {
 		GetInputs(gameBoard);
 	}
 
