@@ -48,6 +48,24 @@ bool NextRow(GameBoard* gameBoard) {
 	return true;
 }
 
+bool ResetBoard(GameBoard* board) {
+	if (board == NULL) {
+		fprintf(stderr, "Cannot reset a NULL board");
+		return false;
+	}
+
+	for (int i = 0; i < BOARD_WIDTH; i++) {
+		for (int j = 0; j < BOARD_HEIGHT; j++) {
+			board->grid[i][j] = ' ';
+		}
+	}
+
+	board->currentRow = 0;
+	board->currentColumn = 0;
+	
+	return true;
+}
+
 bool DestroyGameBoard(GameBoard* gameBoard) {
 	if (gameBoard == NULL) {
 		fprintf(stderr, "Unable to free game board, game board doesn't exist\n");

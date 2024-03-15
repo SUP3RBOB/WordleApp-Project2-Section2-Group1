@@ -2,14 +2,27 @@
 
 #include "game_board.h"
 
-typedef enum letterCase {
+typedef enum letterStatus {
 	NotInWord,
 	IsInWord,
 	IsInPosition,
-} LetterCase;
+} LetterStatus;
 
-bool GetInputs(GameBoard* gameBoard);
+typedef struct game {
+	bool running;
+	bool gameEnded;
+	bool gameWon;
+	char word[6];
+} Game;
+
+Game* CreateGame();
+
+bool DestroyGame(Game* game);
+
+bool GetInputs(Game* game, GameBoard* gameBoard);
+bool ReplayGame(Game* game, GameBoard* gameBoard);
 void RefreshBoard(GameBoard* gameBoard);
 bool IsValidInput(char letter);
 bool IsLetterInWord(char letter);
-LetterCase GetLetterCase(char letter, int pos);
+LetterStatus GetLetterCase(char letter, int pos);
+bool WordFound(GameBoard* gameBoard);

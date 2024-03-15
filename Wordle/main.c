@@ -3,6 +3,8 @@
 #include "mainmenu.h"
 int main() {
 	char input[4];
+	
+	Game* game = CreateGame();
 	GameBoard* gameBoard = CreateGameBoard();
 	Player* player = CreatePlayer();
 	//p info; //temp struct change when full player info struct is done
@@ -39,13 +41,19 @@ int main() {
 
 	//main menu end
 	while (true) {
-		bool running = true;
 
-		while (running) {
-			GetInputs(gameBoard);
+		RefreshBoard(gameBoard);
+		while (game->running) {
+			if (!game->gameEnded) {
+				GetInputs(game, gameBoard);
+			} else {
+				ReplayGame(game, gameBoard);
+			}
 		}
 
+		DestroyGame(game);
 		DestroyGameBoard(gameBoard);
+		DestroyPlayer(player);
 		return 0;
 	}
 }
