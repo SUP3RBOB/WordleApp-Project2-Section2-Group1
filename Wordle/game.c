@@ -73,7 +73,6 @@ void RefreshBoard(GameBoard* gameBoard) {
 
 	printf("//////////\\\\\\\\\\\\\\\\\\\\\\\n");
 	for (int i = 0; i < BOARD_HEIGHT; i++) {
-
 		printf("|   |   |   |   |   |\n");
 
 		for (int j = 0; j < BOARD_WIDTH; j++) {
@@ -88,7 +87,13 @@ void RefreshBoard(GameBoard* gameBoard) {
 				printf("| %c ", gameBoard->grid[j][i]);
 			}
 		}
-		printf("|\n");
+		printf("|");
+
+		if (i == gameBoard->currentRow) {
+			printf(" <-");
+		}
+
+		printf("\n");
 
 		printf("|   |   |   |   |   |\n");
 		if (i < 2) {
