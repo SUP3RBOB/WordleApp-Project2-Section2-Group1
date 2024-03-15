@@ -37,7 +37,7 @@ bool GetInputs(GameBoard* gameBoard) {
 			gameBoard->currentColumn--;
 		}
 
-		SetCharacterAtCurrentPosition(gameBoard, '0');
+		SetCharacterAtCurrentPosition(gameBoard, ' ');
 
 		RefreshBoard(gameBoard);
 		return true;
@@ -71,19 +71,35 @@ bool IsValidInput(char letter) {
 void RefreshBoard(GameBoard* gameBoard) {
 	system("cls");
 
+	printf("//////////\\\\\\\\\\\\\\\\\\\\\\\n");
 	for (int i = 0; i < BOARD_HEIGHT; i++) {
+
+		printf("|   |   |   |   |   |\n");
+
 		for (int j = 0; j < BOARD_WIDTH; j++) {
 			if (i < gameBoard->currentRow) {
 				switch (GetLetterCase(gameBoard->grid[j][i], j)) {
-					case NotInWord: printf(ANSI_COLOR_RED "%c" ANSI_COLOR_RESET, gameBoard->grid[j][i]); break;
-					case IsInWord: printf(ANSI_COLOR_YELLOW "%c" ANSI_COLOR_RESET, gameBoard->grid[j][i]); break;
-					case IsInPosition: printf(ANSI_COLOR_GREEN "%c" ANSI_COLOR_RESET, gameBoard->grid[j][i]); break;
+				case NotInWord: printf("| "ANSI_COLOR_RED "%c" ANSI_COLOR_RESET " ", gameBoard->grid[j][i]); break;
+				case IsInWord: printf("| "ANSI_COLOR_YELLOW "%c" ANSI_COLOR_RESET " ", gameBoard->grid[j][i]); break;
+				case IsInPosition: printf("| " ANSI_COLOR_GREEN "%c" ANSI_COLOR_RESET " ", gameBoard->grid[j][i]); break;
 				}
-			} else {
-				printf("%c", gameBoard->grid[j][i]);
+			}
+			else {
+				printf("| %c ", gameBoard->grid[j][i]);
 			}
 		}
-		printf("\n");
+		printf("|\n");
+
+		printf("|   |   |   |   |   |\n");
+		if (i < 2) {
+			printf("//////////\\\\\\\\\\\\\\\\\\\\\\\n");
+		}
+		else if (i == 2) {
+			printf("|||||||||||||||||||||\n");
+		}
+		else if (i > 2) {
+			printf("\\\\\\\\\\\\\\\\\\\\\\\//////////\n");
+		}
 	}
 }
 
