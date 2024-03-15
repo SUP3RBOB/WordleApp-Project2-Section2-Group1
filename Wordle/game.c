@@ -5,7 +5,7 @@
 #include <ctype.h>
 #include <string.h>
 
-#define VALID_CHARS "ABCDEFGHIJKLMNOPQRSTUVWXYZ\n"
+#define VALID_CHARS "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 #define KEY_BACKSPACE 8
 #define KEY_ENTER 13
 
@@ -28,6 +28,7 @@ bool GetInputs(GameBoard* gameBoard) {
 
 	if (keyInput == KEY_ENTER && gameBoard->currentColumn >= BOARD_WIDTH) {
 		NextRow(gameBoard);
+		RefreshBoard(gameBoard);
 		return true;
 	}
 
@@ -73,7 +74,7 @@ void RefreshBoard(GameBoard* gameBoard) {
 	for (int i = 0; i < BOARD_HEIGHT; i++) {
 		for (int j = 0; j < BOARD_WIDTH; j++) {
 			if (i < gameBoard->currentRow) {
-				switch (GetLetterCase(gameBoard->grid[j][i])) {
+				switch (GetLetterCase(gameBoard->grid[j][i], j)) {
 					case NotInWord: printf(ANSI_COLOR_RED "%c" ANSI_COLOR_RESET, gameBoard->grid[j][i]); break;
 					case IsInWord: printf(ANSI_COLOR_YELLOW "%c" ANSI_COLOR_RESET, gameBoard->grid[j][i]); break;
 					case IsInPosition: printf(ANSI_COLOR_GREEN "%c" ANSI_COLOR_RESET, gameBoard->grid[j][i]); break;
@@ -96,14 +97,12 @@ bool IsLetterInWord(char letter) {
 	return false;
 }
 
-LetterCase GetLetterCase(char letter) {
-	for (int i = 0; i < strlen(word); i++) {
-		if (letter == word[i]) {
-			return IsInPosition;
-		} else if (IsLetterInWord(letter)) {
-			return IsInWord;
-		} else {
-			return NotInWord;
-		}
+LetterCase GetLetterCase(char letter, int pos) {
+	if (letter == word[pos]) {
+		return IsInPosition;
+	} else if (IsLetterInWord(letter)) {
+		return IsInWord;
+	} else {
+		return NotInWord;
 	}
 }

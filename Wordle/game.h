@@ -12,4 +12,4 @@ bool GetInputs(GameBoard* gameBoard);
 void RefreshBoard(GameBoard* gameBoard);
 bool IsValidInput(char letter);
 bool IsLetterInWord(char letter);
-LetterCase GetLetterCase(char letter);
+LetterCase GetLetterCase(char letter, int pos);
