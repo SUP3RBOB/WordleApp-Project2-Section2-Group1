@@ -1,14 +1,13 @@
 #include <stdio.h>
 #include "game.h"
 #include "mainmenu.h"
-
 int main() {
 	char input[4];
 	GameBoard* gameBoard = CreateGameBoard();
-	//p info;
+	Player* player = CreatePlayer();
+	//p info; //temp struct change when full player info struct is done
 
 	//main menu begin
-	//printf("        welcome to worlde!        \n");
 	for (int i = 0; i < 5; i++)
 	{
 		printf("\n");
@@ -23,23 +22,30 @@ int main() {
 		printf("\n");
 	}
 	printf("                                               input three letters for a name\n");
+	printf("                                                           Q to quit\n");
 	printf("                                                   or press space to begin\n");
-	/*fgets(input, 4, stdin);
+	fgets(input, 4, stdin);
 
 	if (input == " ")
 	{
 		start();
-	}if (input == "Q") {
+	}if (input == "Q" || input == "q") {
 		quit();
-	}else{
-			setName(info, input);
-	}*/
-	
-	//main menu end
-	while (true) {
-		GetInputs(gameBoard);
+	}
+	else {
+		setName(player, input);
+		start();
 	}
 
-	DestroyGameBoard(gameBoard);
-	return 0;
+	//main menu end
+	while (true) {
+		bool running = true;
+
+		while (running) {
+			GetInputs(gameBoard);
+		}
+
+		DestroyGameBoard(gameBoard);
+		return 0;
+	}
 }

@@ -17,6 +17,6 @@ void quit() {
 	exit(0);
 }
 
-void setName(struct player info, char name[MAX]) {
-	strncpy(info.username, name, MAX);
+void setName(Player* info, char name[USERNAME_LENGTH]) {
+	strncpy(info->username, name, USERNAME_LENGTH);
 }
