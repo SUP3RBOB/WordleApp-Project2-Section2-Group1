@@ -12,7 +12,7 @@ GameBoard* CreateGameBoard() {
 
 	for (int i = 0; i < BOARD_WIDTH; i++) {
 		for (int j = 0; j < BOARD_HEIGHT; j++) {
-			board->grid[i][j] = '0';
+			board->grid[i][j] = ' ';
 		}
 	}
 
@@ -44,6 +44,24 @@ bool NextRow(GameBoard* gameBoard) {
 
 	gameBoard->currentRow++;
 	gameBoard->currentColumn = 0;
+	
+	return true;
+}
+
+bool ResetBoard(GameBoard* board) {
+	if (board == NULL) {
+		fprintf(stderr, "Cannot reset a NULL board");
+		return false;
+	}
+
+	for (int i = 0; i < BOARD_WIDTH; i++) {
+		for (int j = 0; j < BOARD_HEIGHT; j++) {
+			board->grid[i][j] = ' ';
+		}
+	}
+
+	board->currentRow = 0;
+	board->currentColumn = 0;
 	
 	return true;
 }
