@@ -41,7 +41,7 @@ namespace PlayerTesting
 		TEST_METHOD(LoadPlayer1)
 		{
 			Player p;
-			char name[] = "randomassfile.txt";
+			char name[] = "randomfile.txt";
 			bool geuss = LoadPlayerData(&p, name);
 			Assert::AreEqual(geuss, true);
 		}
