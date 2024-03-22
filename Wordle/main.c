@@ -1,7 +1,11 @@
 #include <stdio.h>
 #include "game.h"
 #include "mainmenu.h"
+#include <time.h>
+#include <stdlib.h>
 int main() {
+	srand(time(NULL));
+
 	char input[4];
 	
 	Game* game = CreateGame();
