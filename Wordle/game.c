@@ -1,3 +1,5 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include "game.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -29,8 +31,36 @@ Game* CreateGame() {
 	game->running = true;
 	game->gameEnded = false;
 	game->gameWon = false;
+	game->totalWords = InitializeWordBank(game);
+
+	strncpy(word, game->wordBank[rand() % game->totalWords], WORD_LENGTH);
 
 	return game;
+}
+
+int InitializeWordBank(Game* game) {
+	FILE* file = fopen("words.txt", "r");
+	if (file == NULL) {
+		fprintf(stderr, "Could not open words.txt\n");
+		return 0;
+	}
+
+	int wordCount = 0;
+
+	while (fgets(word, sizeof(word), file)) {
+		word[strcspn(word, "\n")] = 0;
+
+		if (strlen(word) == 0) {
+			continue;
+		}
+
+		game->wordBank[wordCount] = _strdup(word);
+		wordCount++;
+	}
+
+	fclose(file);
+
+	return wordCount;
 }
 
 bool DestroyGame(Game* game) {
@@ -117,6 +147,7 @@ bool ReplayGame(Game* game, GameBoard* gameBoard) {
 		game->gameEnded = false;
 		game->gameWon = false;
 		RefreshBoard(gameBoard);
+		RandomizeWord(game);
 	} else if (input == KEY_NO) {
 		game->running = false;
 	} else {
@@ -202,5 +233,15 @@ bool WordFound(GameBoard* gameBoard) {
 		}
 	}
 	
+	return true;
+}
+
+bool RandomizeWord(Game* game) {
+	if (game == NULL) {
+		return false;
+	}
+
+	strncpy(word, game->wordBank[game->totalWords], WORD_LENGTH);
+
 	return true;
 }

@@ -1,5 +1,8 @@
-apple
-world
-curds
-kiwis
-cones
+APPLE
+WORLD
+CURDS
+KIWIS
+CONES
+LIVER
+SPANK
+SEVEN
