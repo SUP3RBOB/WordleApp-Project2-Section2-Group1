@@ -28,7 +28,7 @@ Game* CreateGame() {
 		return NULL;
 	}
 
-	game->running = true;
+	game->running = false;
 	game->gameEnded = false;
 	game->gameWon = false;
 	game->totalWords = InitializeWordBank(game);
@@ -74,7 +74,7 @@ bool DestroyGame(Game* game) {
 	return true;
 }
 
-bool GetInputs(Game* game, GameBoard* gameBoard) {
+bool GetInputs(Game* game, GameBoard* gameBoard, Player* player) {
 	if (gameBoard == NULL) {
 		fprintf(stderr, "Unable to get keyboard input, game board doesn't exist\n");
 		return false;
@@ -88,6 +88,13 @@ bool GetInputs(Game* game, GameBoard* gameBoard) {
 		if (WordFound(gameBoard)) {
 			game->gameEnded = true;
 			game->gameWon = true;
+			player->gamesPlayed++;
+			player->totalWins++;
+			player->winStreak++;
+
+			if (player->winStreak > player->highestWinStreak) {
+				player->highestWinStreak = player->winStreak;
+			}
 		}
 
 		NextRow(gameBoard);
@@ -96,6 +103,9 @@ bool GetInputs(Game* game, GameBoard* gameBoard) {
 		if (gameBoard->currentRow >= BOARD_HEIGHT) {
 			game->gameEnded = true;
 			game->gameWon = false;
+			player->gamesPlayed++;
+			player->totalLosses++;
+			player->winStreak = 0;
 		}
 
 		return true;
@@ -135,7 +145,7 @@ bool ReplayGame(Game* game, GameBoard* gameBoard) {
 	if (game->gameWon) {
 		printf("You won!\n");
 	} else {
-		printf("You Lost!\n");
+		printf("You Lost! The word was %s\n", word);
 	}
 	printf("Play again? [y/n]");
 
@@ -149,6 +159,9 @@ bool ReplayGame(Game* game, GameBoard* gameBoard) {
 		RefreshBoard(gameBoard);
 		RandomizeWord(game);
 	} else if (input == KEY_NO) {
+		ResetBoard(gameBoard);
+		game->gameEnded = false;
+		game->gameWon = false;
 		game->running = false;
 	} else {
 		RefreshBoard(gameBoard);
@@ -175,15 +188,17 @@ void RefreshBoard(GameBoard* gameBoard) {
 		printf("|   |   |   |   |   |\n");
 
 		for (int j = 0; j < BOARD_WIDTH; j++) {
+			printf("| ");
 			if (i < gameBoard->currentRow) {
 				switch (GetLetterCase(gameBoard->grid[j][i], j)) {
-				case NotInWord: printf("| "ANSI_COLOR_RED "%c" ANSI_COLOR_RESET " ", gameBoard->grid[j][i]); break;
-				case IsInWord: printf("| "ANSI_COLOR_YELLOW "%c" ANSI_COLOR_RESET " ", gameBoard->grid[j][i]); break;
-				case IsInPosition: printf("| " ANSI_COLOR_GREEN "%c" ANSI_COLOR_RESET " ", gameBoard->grid[j][i]); break;
+					case NotInWord: printf(ANSI_COLOR_RED "%c" ANSI_COLOR_RESET, gameBoard->grid[j][i]); break;
+					case IsInWord: printf(ANSI_COLOR_YELLOW "%c" ANSI_COLOR_RESET, gameBoard->grid[j][i]); break;
+					case IsInPosition: printf(ANSI_COLOR_GREEN "%c" ANSI_COLOR_RESET, gameBoard->grid[j][i]); break;
 				}
 			} else {
-				printf("| %c ", gameBoard->grid[j][i]);
+				printf("%c", gameBoard->grid[j][i]);
 			}
+			printf(" ");
 		}
 		printf("|");
 
@@ -236,12 +251,6 @@ bool WordFound(GameBoard* gameBoard) {
 	return true;
 }
 
-bool RandomizeWord(Game* game) {
-	if (game == NULL) {
-		return false;
-	}
-
-	strncpy(word, game->wordBank[game->totalWords], WORD_LENGTH);
-
-	return true;
+void RandomizeWord(Game* game) {
+	strncpy(word, game->wordBank[rand() % game->totalWords], WORD_LENGTH);
 }
