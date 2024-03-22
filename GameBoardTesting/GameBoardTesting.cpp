@@ -20,13 +20,49 @@ namespace GameBoardTesting
 	{
 	public:
 		
-		TEST_METHOD(TestMethod1)
+		TEST_METHOD(SetCharacterAtCurrentPosition1)
 		{
 			GameBoard g;
-			g.currentColumn = 5;
-			g.currentRow = 6;
+			g.currentColumn = 4;
+			g.currentRow = 5;
 			SetCharacterAtCurrentPosition(&g, 'f');
-			Assert::AreEqual(g.grid[5][6], 'f');
+			Assert::AreEqual(g.grid[4][5], 'f');
+		}
+		TEST_METHOD(SetCharacterAtCurrentPosition2)
+		{
+			GameBoard g;
+			g.currentColumn = 4;
+			g.currentRow = 5;
+			SetCharacterAtCurrentPosition(&g, 'f');
+			Assert::AreNotEqual(g.grid[4][5], 'g');
+		}
+		TEST_METHOD(SetCharacterAtCurrentPosition3)
+		{
+			GameBoard g;
+			g.currentColumn = 4;
+			g.currentRow = 5;
+			SetCharacterAtCurrentPosition(&g, 'f');
+			Assert::AreNotEqual(g.grid[0][0], 'f');
+		}
+		TEST_METHOD(GetCharacterAtCurrentPosition1)
+		{
+			GameBoard g;
+			g.currentColumn = 4;
+			g.currentRow = 5;
+			SetCharacterAtCurrentPosition(&g, 'f');
+			char temp = GetCharacterAtCurrentPosition(&g);
+			Assert::AreEqual(temp, 'f');
+		}
+		TEST_METHOD(GetCharacterAtCurrentPosition2)
+		{
+			GameBoard g;
+			g.currentColumn = 4;
+			g.currentRow = 5;
+			SetCharacterAtCurrentPosition(&g, 'f');
+			g.currentColumn = 0;
+			g.currentRow = 0;
+			char temp = GetCharacterAtCurrentPosition(&g);
+			Assert::AreNotEqual(temp, 'f');
 		}
 	};
 }
