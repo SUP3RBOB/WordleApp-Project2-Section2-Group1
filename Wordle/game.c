@@ -119,6 +119,8 @@ bool ReplayGame(Game* game, GameBoard* gameBoard) {
 		RefreshBoard(gameBoard);
 	} else if (input == KEY_NO) {
 		game->running = false;
+	} else {
+		RefreshBoard(gameBoard);
 	}
 	
 	return true;
