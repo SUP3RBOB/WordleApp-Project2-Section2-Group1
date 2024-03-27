@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "CppUnitTest.h"
+#include "stdlib.h"
+#include "stdio.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -119,12 +121,13 @@ namespace GameBoardTesting
 		}
 		TEST_METHOD(DestroyGameBoard2)
 		{
-			GameBoard g;
-			g.currentColumn = 4;
-			g.currentRow = 5;
-			SetCharacterAtCurrentPosition(&g, 'f');
-			bool temp = DestroyGameBoard(&g);
-			Assert::AreEqual(temp, true);
+			GameBoard* g = (GameBoard*)malloc(sizeof(GameBoard));
+
+			g->currentColumn = 0;
+			g->currentRow = 0;
+			SetCharacterAtCurrentPosition(g, 'f');
+			bool temp = DestroyGameBoard(g);
+			Assert::AreNotEqual(temp, false);
 		}
 	};
 }
