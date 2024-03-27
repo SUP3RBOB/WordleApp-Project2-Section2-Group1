@@ -1,8 +1,12 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "mainmenu.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
-#include "stdio.h"
+#include <Windows.h>
+#include <mmsystem.h>
+
+#pragma comment(lib, "winmm.lib")
 
 #define ARROW_KEY 224
 #define UP_ARROW 72
@@ -37,10 +41,12 @@ void UpdateMenu(MainMenu* menu) {
 		input = _getch();
 		if (input == UP_ARROW || input == DOWN_ARROW) {
 			menu->index = 0 + (++(menu->index) % 2);
+			PlaySound(TEXT("sound/menu_hover.wav"), NULL, SND_FILENAME | SND_ASYNC);
 		}
 	} else if (input == KEY_ENTER) {
 		if (menu->index == 0) {
 			menu->exitMenu = true;
+			PlaySound(TEXT("sound/menu_select.wav"), NULL, SND_FILENAME | SND_ASYNC);
 		} else {
 			menu->running = false;
 			menu->exitMenu = false;

@@ -6,6 +6,10 @@
 #include <conio.h>
 #include <ctype.h>
 #include <string.h>
+#include <Windows.h>
+#include <mmsystem.h>
+
+#pragma comment(lib, "winmm.lib")
 
 #define VALID_CHARS "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 #define KEY_BACKSPACE 8
@@ -108,6 +112,8 @@ bool GetInputs(Game* game, GameBoard* gameBoard, Player* player) {
 			player->winStreak = 0;
 		}
 
+		PlaySound(TEXT("sound/menu_select.wav"), NULL, SND_FILENAME | SND_ASYNC);
+
 		return true;
 	}
 
@@ -119,6 +125,9 @@ bool GetInputs(Game* game, GameBoard* gameBoard, Player* player) {
 		SetCharacterAtCurrentPosition(gameBoard, ' ');
 
 		RefreshBoard(gameBoard);
+
+		PlaySound(TEXT("sound/menu_hover.wav"), NULL, SND_FILENAME | SND_ASYNC);
+
 		return true;
 	}
 
@@ -133,6 +142,7 @@ bool GetInputs(Game* game, GameBoard* gameBoard, Player* player) {
 	SetCharacterAtCurrentPosition(gameBoard, (char)keyInput);
 	RefreshBoard(gameBoard);
 	gameBoard->currentColumn++;
+	PlaySound(TEXT("sound/menu_hover.wav"), NULL, SND_FILENAME | SND_ASYNC);
 
 	return true;
 }
@@ -158,10 +168,12 @@ bool ReplayGame(Game* game, GameBoard* gameBoard) {
 		game->gameWon = false;
 		RefreshBoard(gameBoard);
 		RandomizeWord(game);
+		PlaySound(TEXT("sound/menu_select.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	} else if (input == KEY_NO) {
 		ResetBoard(gameBoard);
 		game->gameEnded = false;
 		game->gameWon = false;
+		PlaySound(TEXT("sound/menu_hover.wav"), NULL, SND_FILENAME | SND_ASYNC);
 		game->running = false;
 	} else {
 		RefreshBoard(gameBoard);
