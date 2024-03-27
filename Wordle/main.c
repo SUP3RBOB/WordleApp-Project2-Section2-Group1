@@ -1,63 +1,85 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include "game.h"
 #include "mainmenu.h"
-#include <time.h>
-#include <stdlib.h>
-int main() {
+#include <Windows.h>
+#include <mmsystem.h>
+
+#pragma comment(lib, "winmm.lib")
+
+int main(int argc, char* argv[]) {
 	srand(time(NULL));
 
-	char input[4];
-	
+	Player* player = CreatePlayer();
 	Game* game = CreateGame();
 	GameBoard* gameBoard = CreateGameBoard();
-	Player* player = CreatePlayer();
-	//p info; //temp struct change when full player info struct is done
 
-	//main menu begin
-	for (int i = 0; i < 5; i++)
-	{
-		printf("\n");
-	}
-	printf("              WWWWW    WWW    WWWWW      OOOOOOOO        RRRRRRRRR       DDDDDDD       LLL          EEEEEE\n");
-	printf("               WWWWW  WWWWW  WWWWW     OOOO    OOOO      RRR    RRR      DDD   DDD     LLL          EEE\n");
-	printf("                WWWWWWWW WWWWWWWW     OOOO      OOOO     RRRRRRRRR       DDD    DD     LLL          EEEEEE\n");
-	printf("                 WWWWWW   WWWWWW       OOOO    OOOO      RRR   RRRR      DDD   DDD     LLL          EEE\n");
-	printf("                  WWWW     WWWW          OOOOOOOO        RRR     RRR     DDDDDDD       LLLLLLLL     EEEEEE\n");
-	for (int i = 0; i < 9; i++)
-	{
-		printf("\n");
-	}
-	printf("                                               input three letters for a name\n");
-	printf("                                                           Q to quit\n");
-	printf("                                                   or press space to begin\n");
-	fgets(input, 4, stdin);
+	MainMenu menu = { 0, true, false };
 
-	if (input == " ")
-	{
-		start();
-	}if (input == "Q" || input == "q") {
-		quit();
-	}
-	else {
-		setName(player, input);
-		start();
+	bool saveLoaded = LoadPlayerData(player, argc > 1 ? argv[1] : "");
+	if (saveLoaded) {
+		PrintPlayerInfo(player);
 	}
 
-	//main menu end
-	while (true) {
+	while (menu.running) {
+		menu.exitMenu = false;
+		RefreshMenu(&menu);
+		if (saveLoaded) {
+			PrintPlayerInfo(player);
+		}
 
-		RefreshBoard(gameBoard);
+		UpdateMenu(&menu);
+
+		RefreshMenu(&menu);
+		if (saveLoaded) {
+			PrintPlayerInfo(player);
+		}
+
+		if (menu.exitMenu && !saveLoaded) {
+			printf("Enter a username (max 3 characters): \n");
+			char input[USERNAME_LENGTH];
+			fgets(input, 4, stdin);
+			setName(player, input);
+
+			char fileName[8];
+			sprintf(fileName, "%s.bin", player->username);
+			saveLoaded = SavePlayerData(player, fileName);
+
+			game->running = true;
+			system("cls");
+			RefreshBoard(gameBoard);
+		}
+
+		if (menu.exitMenu) {
+			game->running = true;
+			RefreshBoard(gameBoard);
+			RandomizeWord(game);
+		}
+
+		
 		while (game->running) {
 			if (!game->gameEnded) {
-				GetInputs(game, gameBoard);
+				GetInputs(game, gameBoard, player);
 			} else {
 				ReplayGame(game, gameBoard);
 			}
 		}
-
-		DestroyGame(game);
-		DestroyGameBoard(gameBoard);
-		DestroyPlayer(player);
-		return 0;
 	}
+
+	if (strcmp(player->username, "") != 0) {
+		char fileName[8];
+		sprintf(fileName, "%s.bin", player->username);
+		SavePlayerData(player, fileName);
+	}
+
+	DestroyGame(game);
+	DestroyGameBoard(gameBoard);
+	DestroyPlayer(player);
+
+	system("cls");
+
+	return 0;
 }

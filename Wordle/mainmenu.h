@@ -5,7 +5,16 @@
 #define MAX 3
 #define LIMIT 1
 
-//to be deleted later just temp
+typedef struct mainMenu {
+	int index;
+	bool running;
+	bool exitMenu;
+} MainMenu;
+
+void PrintLogo();
+
+void UpdateMenu(MainMenu* menu);
+void RefreshMenu(MainMenu* menu);
 
 void start();
 

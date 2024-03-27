@@ -7,11 +7,12 @@ typedef struct player {
 	int gamesPlayed;
 	int totalWins;
 	int totalLosses;
-	float winPercentage;
 	int winStreak;
+	int highestWinStreak;
 } Player;
 
 Player* CreatePlayer();
 bool SavePlayerData(Player* player, char fileName[]);
 bool LoadPlayerData(Player* player, char fileName[]);
+void PrintPlayerInfo(Player* player);
 void DestroyPlayer(Player* player);

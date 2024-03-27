@@ -11,11 +11,12 @@ Player* CreatePlayer() {
 		return NULL;
 	}
 
+	strncpy(player->username, "", USERNAME_LENGTH);
 	player->gamesPlayed = 0;
 	player->totalWins = 0;
 	player->totalLosses = 0;
-	player->winPercentage = 0.0f;
 	player->winStreak = 0;
+	player->highestWinStreak = 0;
 
 	return player;
 }
@@ -35,13 +36,24 @@ bool SavePlayerData(Player* player, char fileName[]) {
 bool LoadPlayerData(Player* player, char fileName[]) {
 	FILE* fp = fopen(fileName, "r");
 	if (fp == NULL) {
-		fprintf(stderr, "Unable to open file %s for loading", fileName);
 		return false;
 	}
 
 	fread(player, sizeof(Player), 1, fp);
 
 	return true;
+}
+
+void PrintPlayerInfo(Player* player) {
+	printf("Welcome Back %s!\n\n", player->username);
+	printf("Current Win Streak: %d\n", player->winStreak);
+	printf("Highest Win Streak: %d\n", player->highestWinStreak);
+	printf("Games Played: %d\n", player->gamesPlayed);
+	printf("Games Won: %d\n", player->totalWins);
+	printf("Games Lost: %d\n", player->totalLosses);
+
+	float winRate = ((float)player->totalWins) / ((float)player->gamesPlayed);
+	printf("Win Percentage: %f\n", winRate * 100.f);
 }
 
 void DestroyPlayer(Player* player) {
