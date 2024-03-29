@@ -99,7 +99,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalLibraryDirectories>C:\Users\Chris\source\repos\WordleApp\Wordle\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>F:\Conestoga Computer Science\Semester 2\Team Based Software Development\WordleApp\Wordle\x64\Debug;C:\Users\Chris\source\repos\WordleApp\Wordle\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>main.obj;game.obj;game_board.obj;player.obj;mainmenu.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

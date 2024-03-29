@@ -6,6 +6,8 @@
 #define WORD_LENGTH 6
 #define WORD_BANK_COUNT 100
 
+extern char word[];
+
 typedef enum letterStatus {
 	NotInWord,
 	IsInWord,
