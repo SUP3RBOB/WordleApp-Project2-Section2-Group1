@@ -40,7 +40,7 @@ void UpdateMenu(MainMenu* menu) {
 	if (input == ARROW_KEY) {
 		input = _getch();
 		if (input == UP_ARROW || input == DOWN_ARROW) {
-			menu->index = 0 + (++(menu->index) % 2);
+			menu->index = ++(menu->index) % 2;
 			PlaySound(TEXT("sound/menu_hover.wav"), NULL, SND_FILENAME | SND_ASYNC);
 		}
 	} else if (input == KEY_ENTER) {

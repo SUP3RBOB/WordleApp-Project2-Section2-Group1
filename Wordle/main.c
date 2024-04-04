@@ -81,5 +81,5 @@ int main(int argc, char* argv[]) {
 
 	system("cls");
 
-	return 0;
+	exit(EXIT_SUCCESS);
 }
