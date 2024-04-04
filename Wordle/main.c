@@ -5,10 +5,6 @@
 #include <time.h>
 #include "game.h"
 #include "mainmenu.h"
-#include <Windows.h>
-#include <mmsystem.h>
-
-#pragma comment(lib, "winmm.lib")
 
 int main(int argc, char* argv[]) {
 	srand(time(NULL));
